@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  #before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
 
   # GET /products
   # GET /products.json
@@ -33,7 +33,9 @@ class ProductsController < ApplicationController
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
-
+    @product = Product.find(params[:id])
+    @product.update(product_params)
+    redirect_to products_path
   end
 
   # DELETE /products/1
