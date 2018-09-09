@@ -1,12 +1,9 @@
 
-<%= simple_form_for(@product) do |f| %>
-  <%= f.error_notification %>
-  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-
-  <div class="form-inputs">
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
-  </div>
+<%= simple_form_for @product do |f| %>
+  <%= f.input :name, label: 'Product name', error: 'Insert a name please' %>
+  <%= f.input :tagline, label: 'Tagline' %>
+  <%= f.input :description, label: 'Description' %>
+  <%= f.association :category, label: 'Category' %>
+  <%= f.input :price, label: 'Price' %>
+  <%= f.button :submit %>
 <% end %>
