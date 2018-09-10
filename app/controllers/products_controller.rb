@@ -10,7 +10,7 @@ class ProductsController < ApplicationController
   # GET /products/1
   # GET /products/1.json
   def show
-    @product = Product.find(params[:id])
+    #@product = Product.find(params[:id])
   end
 
   # GET /products/new
@@ -20,30 +20,40 @@ class ProductsController < ApplicationController
 
   # GET /products/1/edit
   def edit
-    @product = Product.find(params[:id])
+    #@product = Product.find(params[:id])
   end
 
   # POST /products
   # POST /products.json
   def create
     @product = current_user.products.new(product_params)
-    @product.save
+    if @product.save
+      respond_to do |format|
+        format.html { redirect_to products_path, notice: 'The product was successfully created.' }
+      end
+    else
+      redirect_to new_product_path
+    end
   end
 
   # PATCH/PUT /products/1
   # PATCH/PUT /products/1.json
   def update
-    @product = Product.find(params[:id])
+    #@product = Product.find(params[:id])
     @product.update(product_params)
-    redirect_to products_path
+    respond_to do |format|
+      format.html { redirect_to product_path, notice: 'The product was successfully updated.' }
+    end
   end
 
   # DELETE /products/1
   # DELETE /products/1.json
   def destroy
-    @product = Product.find(params[:id])
+    #@product = Product.find(params[:id])
     @product.destroy
-    redirect_to products_path
+    respond_to do |format|
+      format.html { redirect_to products_path, notice: 'The product was successfully destroyed.' }
+    end
   end
 
   private
@@ -56,4 +66,4 @@ class ProductsController < ApplicationController
     def product_params
       params.require(:product).permit(:name, :tagline, :description, :category_id, :price)
     end
-end
+  end
