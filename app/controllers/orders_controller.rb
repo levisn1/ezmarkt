@@ -10,12 +10,13 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
-    #@orders = Order.find(params[:id])
+    @order = Order.find(params[:id])
   end
 
   # GET /orders/new
   def new
-    @order = Order.new
+    #@product = Product.find(params[:id])
+    #@order = Order.new
   end
 
   # GET /orders/1/edit
@@ -25,7 +26,31 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_params)
+  @user = current_user
+  @userid = current_user.id
+  @product = Product.find(params[:id])
+  #if @user.order.first != nil
+    #@order = @user.order.first
+    #@order.products << @product
+    #@order.users << @userid
+    #@order.save
+    #redirect_to products_path
+  #else
+    #@user = current_user
+    #@product = Product.find(params[:id])
+    @order = @user.order.new
+      @order << userid
+      @order.products << @product.id
+      @order.users << @userid
+      @order.save
+      byebug
+      respond_to do |format|
+        format.html { redirect_to products_path, notice: 'Order was created.' }
+      end
+      respond_to do |format|
+        format.html { redirect_to products_path, notice: 'Order wasn''t created.' }
+      end
+    #end
   end
 
   # PATCH/PUT /orders/1
@@ -49,7 +74,7 @@ class OrdersController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def order_params
-      params.require(:order).permit(:user_id, :product_id)
-    end
+    #def order_params
+      #params.require(:order).permit(:product_id)
+    #end
 end

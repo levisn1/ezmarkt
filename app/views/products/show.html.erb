@@ -1,8 +1,21 @@
 <div class="items-container">
-    <div class="menu-items">
+  <div class="menu-items">
+    <% if current_user != @product.user %>
     <%= @product.name %><br>
     <%= @product.tagline %><br>
     <%= @product.description %><br>
     <%= @product.price %>
-    </div>
+    <%#= button_to "Checkout", orders_path(@product) %>
+    <%#= button_to "Add to cart", {:controller => "orders", :action => "create", :product => @product.id } %>
+    <%= button_to "Add to cart", orders_path(:id => @product.id) %>
+    <% else %>
+    <%= @product.name %><br>
+    <%= @product.tagline %><br>
+    <%= @product.description %><br>
+    <%= @product.price %><br>
+    <%= link_to "Back", products_path %>
+    <%= link_to "Edit Product", edit_product_path(@product) %>
+    <%= link_to "Remove Product", product_path(@product), :method => :delete %>
+    <% end %>
+  </div>
 </div>
