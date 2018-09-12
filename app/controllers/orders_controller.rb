@@ -26,31 +26,19 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-  @user = current_user
-  @userid = current_user.id
-  @product = Product.find(params[:id])
-  #if @user.order.first != nil
-    #@order = @user.order.first
-    #@order.products << @product
-    #@order.users << @userid
-    #@order.save
-    #redirect_to products_path
-  #else
-    #@user = current_user
-    #@product = Product.find(params[:id])
-    @order = @user.order.new
-      @order << userid
-      @order.products << @product.id
-      @order.users << @userid
-      @order.save
-      byebug
+    @product = Product.find(params[:id])
+    @order = current_user.orders.new
+    if @order.save
+      @order.products << @product
+      #byebug
       respond_to do |format|
-        format.html { redirect_to products_path, notice: 'Order was created.' }
+        format.html { redirect_to products_path, notice: 'Order was successfully created.' }
       end
+    else
       respond_to do |format|
-        format.html { redirect_to products_path, notice: 'Order wasn''t created.' }
+        format.html { redirect_to products_path, notice: 'Order was not created.' }
       end
-    #end
+    end
   end
 
   # PATCH/PUT /orders/1
