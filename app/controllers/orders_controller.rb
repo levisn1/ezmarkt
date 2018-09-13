@@ -4,13 +4,12 @@ class OrdersController < ApplicationController
   # GET /orders
   # GET /orders.json
   def index
-    @orders = Order.all
+    @order = Order.find_by user_id: current_user.id
   end
 
   # GET /orders/1
   # GET /orders/1.json
   def show
-    @order = Order.find(params[:id])
   end
 
   # GET /orders/new
@@ -32,7 +31,7 @@ class OrdersController < ApplicationController
       @order.products << @product
       #byebug
       respond_to do |format|
-        format.html { redirect_to products_path, notice: 'Order was successfully created.' }
+        format.html { redirect_to orders_path, notice: 'Order was successfully created.' }
       end
     else
       respond_to do |format|

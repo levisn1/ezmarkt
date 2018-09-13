@@ -1,25 +1,17 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Orders</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @orders.each do |order| %>
-      <tr>
-        <td><%= link_to 'Show', order %></td>
-        <td><%= link_to 'Edit', edit_order_path(order) %></td>
-        <td><%= link_to 'Destroy', order, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<div>
+  <% if current_user.orders.present? %>
+  <div>
+    <% @order.products.each do |product| %>
+    <div>
+      Product: <%= product.name %><br />
+      Conditions: <%= product.tagline %><br />
+      Description: <%= product.description %><br />
+      Price: $<%= product.price %><br />
+      Venduto da: <%= product.user.email %><br />
+    </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Order', new_order_path %>
+  </div>
+  <% end %>
+  <% else %>
+  <p>Non hai ordini in sospeso </p>
+</div>
