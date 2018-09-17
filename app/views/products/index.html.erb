@@ -1,21 +1,13 @@
 <div class="items-container">
   <% @products.each do |product| %>
-  <% if @user != product.user %>
-  <div class="menu-items">
-    <%= product.name %><br>
-    <%= product.tagline %><br>
-    <%= product.description %><br>
-    <%= product.price %><br>
-    <%= link_to "Show Product", product_path(product) %>
-    <% else %>
-    <%= product.name %><br>
-    <%= product.tagline %><br>
-    <%= product.description %><br>
-    <%= product.price %><br>
-    <%= link_to "Back", products_path %>
-    <%= link_to "Edit Product", edit_product_path(product) %>
-    <%= link_to "Remove Product", product_path(product), :method => :delete %>
+  <% if product.ordinable%>
+      <div class="menu-items">
+        <%= product.name %><br>
+        <%= product.tagline %><br>
+        <%= product.description %><br>
+        <%= product.price %><br>
+        <%= link_to "Show Product", product_path(product) %>
+      </div>
+      <% end %>
     <% end %>
-  </div>
-  <% end %>
 </div>

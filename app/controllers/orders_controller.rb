@@ -25,17 +25,39 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @product = Product.find(params[:id])
-    @order = current_user.orders.new
-    if @order.save
-      @order.products << @product
-      #byebug
-      respond_to do |format|
-        format.html { redirect_to orders_path, notice: 'Order was successfully created.' }
+    if current_user.orders.present?
+      @product = Product.find(params[:id])
+      @order = current_user.orders.first
+      order_id = @order.id
+      product_id = @product.id
+      @product.ordinable = false
+      @product.save
+      if @order.products << @product
+        respond_to do |format|
+          format.html { redirect_to orders_path, notice: 'Product added to the cart!' }
+        end
+      else
+        respond_to do |format|
+          format.html { redirect_to products_path, notice: 'There was a problem while adding the product to the cart!' }
+        end
       end
     else
-      respond_to do |format|
-        format.html { redirect_to products_path, notice: 'Order was not created.' }
+      @product = Product.find(params[:id])
+      product_id = @product.id
+      @order = current_user.orders.new
+      @order.save
+      order_id = @order.id
+      @product.ordinable = false
+      @product.save
+      if @order.products << @product
+        respond_to do |format|
+          format.html { redirect_to orders_path, notice: 'Product added to the cart!' }
+        end
+      OrderPaidCheckJob.set(wait: 25.minutes).perform_later(order_id)
+      else
+        respond_to do |format|
+          format.html { redirect_to products_path, notice: 'There was a problem with your order!' }
+        end
       end
     end
   end

@@ -5,8 +5,6 @@
     <%= @product.tagline %><br>
     <%= @product.description %><br>
     <%= @product.price %>
-    <%#= button_to "Checkout", orders_path(@product) %>
-    <%#= button_to "Add to cart", {:controller => "orders", :action => "create", :product => @product.id } %>
     <%= button_to "Add to cart", orders_path(:id => @product.id) %>
     <% else %>
     <%= @product.name %><br>

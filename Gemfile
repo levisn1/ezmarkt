@@ -25,7 +25,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'simple_form'
 gem 'byebug'
-gem 'delayed_job_active_record'
+gem 'sidekiq'
+gem 'sidekiq-failures', '~> 1.0'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
