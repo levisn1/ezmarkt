@@ -1,7 +1,6 @@
 
 <%= simple_form_for @product do |f| %>
   <%= f.input :name, label: 'Product name', error: 'Insert a name please' %>
-  <%= f.input :tagline, label: 'Tagline' %>
   <%= f.input :description, label: 'Description' %>
   <%= f.association :category, label: 'Category' %>
   <%= f.input :price, label: 'Price' %>

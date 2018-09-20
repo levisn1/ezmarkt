@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_16_122246) do
+ActiveRecord::Schema.define(version: 2018_09_18_190654) do
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2018_09_16_122246) do
   end
 
   create_table "orders", force: :cascade do |t|
+    t.integer "amount_cents", default: 0, null: false
+    t.json "payment"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -35,14 +37,13 @@ ActiveRecord::Schema.define(version: 2018_09_16_122246) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
-    t.string "tagline"
+    t.text "description"
+    t.boolean "ordinable", default: true
     t.integer "user_id"
     t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "price"
-    t.text "description"
-    t.boolean "ordinable", default: true
+    t.integer "price_cents", default: 0, null: false
     t.index ["category_id"], name: "index_products_on_category_id"
     t.index ["user_id"], name: "index_products_on_user_id"
   end

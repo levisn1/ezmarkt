@@ -1,19 +1,25 @@
 <div class="items-container">
+
   <div class="menu-items">
     <% if current_user != @product.user %>
-    <%= @product.name %><br>
-    <%= @product.tagline %><br>
-    <%= @product.description %><br>
-    <%= @product.price %>
-    <%= button_to "Add to cart", orders_path(:id => @product.id) %>
+      <% if @product.ordinable == true %>
+      <%= @product.name %><br>
+      <%= @product.description %><br>
+      <%= humanized_money_with_symbol(@product.price) %><br>
+      <%= button_to "Add to cart", orders_path(:id => @product.id) %>
+      <% else %>
+      <%= @product.name %><br>
+      <%= @product.description %><br>
+      <%= humanized_money_with_symbol(@product.price) %><br>
+      <p>Prodotto attualmente non ordinabile o esaurito</p>
+      <% end %>
     <% else %>
-    <%= @product.name %><br>
-    <%= @product.tagline %><br>
-    <%= @product.description %><br>
-    <%= @product.price %><br>
-    <%= link_to "Back", products_path %>
-    <%= link_to "Edit Product", edit_product_path(@product) %>
-    <%= link_to "Remove Product", product_path(@product), :method => :delete %>
+      <%= @product.name %><br>
+      <%= @product.description %><br>
+      <%= humanized_money_with_symbol(@product.price) %><br>
+      <%= link_to "Back", products_path %>
+      <%= link_to "Edit Product", edit_product_path(@product) %>
+      <%= link_to "Remove Product", product_path(@product), :method => :delete %>
     <% end %>
   </div>
 </div>

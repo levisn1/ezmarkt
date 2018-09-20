@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :create]
 
   # GET /orders
   # GET /orders.json
@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
   # GET /orders/1
   # GET /orders/1.json
   def show
+    @order = current_user.orders.first
   end
 
   # GET /orders/new
@@ -32,9 +33,15 @@ class OrdersController < ApplicationController
       product_id = @product.id
       @product.ordinable = false
       @product.save
+      @order_amount = @order.amount
       if @order.products << @product
+        @order.products.each do |x|
+        @order_amountnew = @order_amount + x.price
+        end
+        @order.amount = @order_amountnew
+        @order.save
         respond_to do |format|
-          format.html { redirect_to orders_path, notice: 'Product added to the cart!' }
+          format.html { redirect_to products_path, notice: 'Product added to the cart!' }
         end
       else
         respond_to do |format|
@@ -49,11 +56,17 @@ class OrdersController < ApplicationController
       order_id = @order.id
       @product.ordinable = false
       @product.save
+      @order_amount = @order.amount
       if @order.products << @product
-        respond_to do |format|
-          format.html { redirect_to orders_path, notice: 'Product added to the cart!' }
+        @order.products.each do |x|
+        @order_amountnew = @order_amount + x.price
         end
-      OrderPaidCheckJob.set(wait: 25.minutes).perform_later(order_id)
+        @order.amount = @order_amountnew
+        @order.save
+        respond_to do |format|
+          format.html { redirect_to products_path, notice: 'Product added to the cart!' }
+        end
+      OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order_id)
       else
         respond_to do |format|
           format.html { redirect_to products_path, notice: 'There was a problem with your order!' }
@@ -79,7 +92,7 @@ class OrdersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_order
-      @order = Order.find(params[:id])
+      @order = Order.find_by user_id: current_user.id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

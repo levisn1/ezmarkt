@@ -1,2 +1,19 @@
-<%= link_to 'Edit', edit_order_path(@order) %> |
-<%= link_to 'Back', orders_path %>
+<div>
+  <% if current_user.orders.present? %>
+  <div>
+    <% @order.products.each do |product| %>
+    <div>
+      Product: <%= product.name %><br />
+      Description: <%= product.description %><br />
+      Price: <%= humanized_money_with_symbol(product.price) %><br />
+      Venduto da: <%= product.user.email %><br />
+    </div>
+    <% end %>
+    <p>TOTAL: <%= humanized_money_with_symbol(@order.amount) %></p><br />
+    <p>PAID: <%= current_user.orders.first.paid %></p>
+  </div>
+  <% else %>
+  <p>Non hai ordini in sospeso </p>
+  <% end %>
+</div>
+

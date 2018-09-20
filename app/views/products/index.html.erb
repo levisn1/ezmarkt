@@ -3,9 +3,8 @@
   <% if product.ordinable%>
       <div class="menu-items">
         <%= product.name %><br>
-        <%= product.tagline %><br>
         <%= product.description %><br>
-        <%= product.price %><br>
+        <%= humanized_money_with_symbol(product.price)%><br>
         <%= link_to "Show Product", product_path(product) %>
       </div>
       <% end %>
