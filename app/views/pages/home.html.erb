@@ -1,1 +1,4 @@
-<h1>Benvenuto sulla pagina della tua prima app</h1>
+<%= form_tag products_path, method: :get do %>
+  <%= text_field_tag 'term', params[:term], placeholder: "What are you looking for?", :required => true %>
+  <%= submit_tag 'Search!' %>
+<% end %>

@@ -4,8 +4,12 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
-    @user = current_user
+      if params[:term].present?
+        @products_search = Product.search_by_name_and_description(params[:term])
+      else
+        @products = Product.all
+    #@user = current_user
+      end
   end
 
   # GET /products/1

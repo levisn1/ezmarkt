@@ -4,4 +4,14 @@ class Product < ApplicationRecord
   belongs_to :user
 
   monetize :price_cents
-end
+
+  include PgSearch
+  pg_search_scope :search_by_name_and_description,
+  against: [ :name, :description ],
+  associated_against: {
+  category: [ :name ]
+  },
+  using: {
+      tsearch: { prefix: true } # <-- now `superman batm` will return something!
+    }
+  end
