@@ -18,11 +18,12 @@ class PaymentsController < ApplicationController
     )
 
     @order.update(payment: charge.to_json, paid: true)
-    redirect_to order_path(@order)
-
+    respond_to do |format|
+        format.html { redirect_to orders_path, notice: 'Payment Completed!' }
+    end
   rescue Stripe::CardError => e
     flash[:alert] = e.message
-    redirect_to order_path(@order)
+    redirect_to orders_path
   end
 
   private

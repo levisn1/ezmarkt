@@ -1,33 +1,31 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-8 col-sm-offset-2">
-      <div>
-        <% if @products_search.present? %>
+    <% if params[:term].present? %>
+      <% if @products_search.present? %>
         <% @products_search.each do |product| %>
-        <% if product.ordinable%>
-        <div class="menu-items">
+        <div class="col-sm-8 col-sm-offset-2">
+          <% if product.ordinable == true  %>
           <%= product.name %><br>
           <%= product.description %><br>
           <%= humanized_money_with_symbol(product.price)%><br>
           <%= link_to "Show Product", product_path(product) %>
+          <% end %>
         </div>
-        <% end %>
-        <% end %>
-        <% else %>
-        <div class="container">
-          <div class="row">
-            <div class="col-sm-8 col-sm-offset-2">
-              <div>
-                <h1>Non sono stati trovati risultati!</h1>
-              </div>
-            </div>
-          </div>
-        </div>
+        <%end%>
+      <% else %>
+        <h1>No products found!</h1>
+      <%end%>
+    <% else %>
+      <% @products.each do |product| %>
+      <div class="col-sm-8 col-sm-offset-2">
+        <% if product.ordinable == true  %>
+        <%= product.name %><br>
+        <%= product.description %><br>
+        <%= humanized_money_with_symbol(product.price)%><br>
+        <%= link_to "Show Product", product_path(product) %>
         <% end %>
       </div>
-    </div>
+      <%end%>
+      <%end%>
   </div>
 </div>
-
-
-

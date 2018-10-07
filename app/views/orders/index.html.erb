@@ -1,19 +1,53 @@
-<div>
-  <% if current_user.orders.present? %>
-  <div>
-    <% @order.products.each do |product| %>
-    <div>
-      Product: <%= product.name %><br />
-      Description: <%= product.description %><br />
-      Price: <%= humanized_money_with_symbol(product.price) %><br />
-      Venduto da: <%= product.user.email %><br />
-    </div>
+<% if current_user.orders.present? %>
+    <% if current_user.orders.where(paid: false).present? %>
+        <p> Orders to pay </p>
+        <% current_user.orders.where(paid: false).each do |x| %>
+        <div>
+        <% x.products.each do |product| %>
+        <div>
+        Product: <%= product.name %><br />
+        Description: <%= product.description %><br />
+        Price: <%= humanized_money_with_symbol(product.price) %><br />
+        Venduto da: <%= product.user.email %><br />
+        </div>
+        <% end %>
+        <p>TOTAL: <%= humanized_money_with_symbol(x.amount) %></p><br />
+        <%= form_tag(controller: "orders", action: 'payorder') do %>
+        <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+        data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
+        data-label="Pay <%=humanized_money_with_symbol(x.amount) %>"
+        data-name="My Teddy"
+        data-email="<%= current_user.email %>"
+        data-amount="<%= x.amount_cents %>"
+        data-currency="<%= x.amount.currency %>"></script>
+        <% end %>
+        </div>
+      <% end %>
     <% end %>
-    <p>TOTAL: <%= humanized_money_with_symbol(@order.amount) %></p><br />
-    <p>PAID: <%= current_user.orders.first.paid %></p>
-  </div>
-  <% else %>
-  <p>Non hai ordini in sospeso </p>
-  <% end %>
-</div>
 
+  <br>
+  <br>
+  <br>
+  <% if current_user.orders.where(paid: true).present? %>
+  <p> Previous Orders:</p>
+
+      <% current_user.orders.where(paid: true).reverse.each do |x| %>
+      <div>
+        <% x.products.each do |product| %>
+        <div>
+          Product: <%= product.name %><br />
+          Description: <%= product.description %><br />
+          Price: <%= humanized_money_with_symbol(product.price) %><br />
+          Venduto da: <%= product.user.email %><br />
+        </div>
+        <% end %>
+      </div>
+      <p>TOTAL PAID: <%= humanized_money_with_symbol(x.amount) %></p>
+      <% end %>
+  <% end %>
+
+
+
+  <% else %>
+    <p>Non hai ordini in sospeso </p>
+<% end %>
