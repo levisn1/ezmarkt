@@ -4,12 +4,10 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-      if params[:term].present?
-        @products_search = Product.search_by_name_and_description(params[:term])
-      else
-        @products = Product.all
-    #@user = current_user
-      end
+    @products_search = Product.where(:ordinable => true).search_by_name_and_description(params[:term]).paginate page: params[:page], per_page: 20
+    #@products = Product.all
+    @products = Product.where(:ordinable => true).paginate page: params[:page], per_page: 20
+
   end
 
   # GET /products/1

@@ -3,7 +3,7 @@
     <% if params[:term].present? %>
       <% if @products_search.present? %>
         <% @products_search.each do |product| %>
-        <div class="col-sm-8 col-sm-offset-2">
+        <div>
           <% if product.ordinable == true  %>
           <%= product.name %><br>
           <%= product.description %><br>
@@ -12,12 +12,13 @@
           <% end %>
         </div>
         <%end%>
+        <%= will_paginate @products_search%>
       <% else %>
         <h1>No products found!</h1>
       <%end%>
     <% else %>
       <% @products.each do |product| %>
-      <div class="col-sm-8 col-sm-offset-2">
+      <div>
         <% if product.ordinable == true  %>
         <%= product.name %><br>
         <%= product.description %><br>
@@ -26,6 +27,7 @@
         <% end %>
       </div>
       <%end%>
+      <%= will_paginate @products%>
       <%end%>
   </div>
 </div>
