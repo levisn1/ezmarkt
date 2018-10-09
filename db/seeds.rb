@@ -9,10 +9,11 @@ require 'faker'
 
 100.times do
   product = Product.new(
-    name:    Faker::Commerce.product_name,
+    name: Faker::Commerce.product_name,
     description: Faker::Commerce.material,
     category_id: rand(1..5),
     ordinable: true,
+    picture: "https://picsum.photos/216/?random",
     user_id: 1,
     price_cents: rand(0..2000)
   )

@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   belongs_to :user
 
   monetize :price_cents
+  mount_uploader :picture, PictureUploader
 
   include PgSearch
   pg_search_scope :search_by_name_and_description,

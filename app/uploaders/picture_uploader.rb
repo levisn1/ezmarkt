@@ -1,16 +1,13 @@
 class PictureUploader < CarrierWave::Uploader::Base
 
   include Cloudinary::CarrierWave
-
+  include CarrierWave::MiniMagick
+  process resize_to_fill: [250, 250]
   process :convert => 'png'
   process :tags => ['product_picture']
 
-  version :standard do
-    process :resize_to_fill => [100, 150, :north]
-  end
-
-  version :thumbnail do
-    resize_to_fit(50, 50)
+  def public_id
+    return model.name
   end
 
 end

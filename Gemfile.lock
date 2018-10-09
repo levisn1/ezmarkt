@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/stympy/faker.git
+  revision: c5ce80c27eb546227185560d032113d2cc42e94b
+  specs:
+    faker (1.9.1)
+      i18n (>= 0.7)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -100,8 +107,6 @@ GEM
       unf (>= 0.0.5, < 1.0.0)
     erubi (1.7.1)
     execjs (2.7.0)
-    faker (1.8.7)
-      i18n (>= 0.7)
     faraday (0.15.2)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.25)
@@ -139,6 +144,7 @@ GEM
       mime-types-data (~> 3.2015)
     mime-types-data (3.2018.0812)
     mimemagic (0.3.2)
+    mini_magick (4.7.0)
     mini_mime (1.0.1)
     mini_portile2 (2.3.0)
     minitest (5.11.3)
@@ -291,12 +297,13 @@ DEPENDENCIES
   cloudinary
   coffee-rails (~> 4.2)
   devise
-  faker
+  faker!
   figaro
   font-awesome-sass (~> 4.7)
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
+  mini_magick
   money-rails
   pg
   pg_search

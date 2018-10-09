@@ -1,33 +1,31 @@
-<div class="container">
-  <div class="row">
-    <% if params[:term].present? %>
-      <% if @products_search.present? %>
-        <% @products_search.each do |product| %>
-        <div>
-          <% if product.ordinable == true  %>
-          <%= product.name %><br>
-          <%= product.description %><br>
-          <%= humanized_money_with_symbol(product.price)%><br>
-          <%= link_to "Show Product", product_path(product) %>
-          <% end %>
-        </div>
-        <%end%>
-        <%= will_paginate @products_search%>
-      <% else %>
-        <h1>No products found!</h1>
-      <%end%>
-    <% else %>
-      <% @products.each do |product| %>
-      <div>
-        <% if product.ordinable == true  %>
-        <%= product.name %><br>
-        <%= product.description %><br>
-        <%= humanized_money_with_symbol(product.price)%><br>
-        <%= link_to "Show Product", product_path(product) %>
-        <% end %>
-      </div>
-      <%end%>
-      <%= will_paginate @products%>
-      <%end%>
-  </div>
+<% if params[:term].present? %>
+<% if @products_search.present? %>
+<% @products_search.each do |product| %>
+<% if product.ordinable == true  %>
+<div>
+  <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
+  <%= product.name %><br>
+  <%= product.description %><br>
+  <%= humanized_money_with_symbol(product.price)%><br>
+  <%= link_to "Show Product", product_path(product) %>
+  <% end %>
 </div>
+<%end%>
+<%= will_paginate @products_search%>
+<% else %>
+<h1>No products found!</h1>
+<% end %>
+<% else %>
+<% @products.reverse.each do |product| %>
+<% if product.ordinable == true  %>
+<div>
+  <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
+  <%= product.name %><br>
+  <%= product.description %><br>
+  <%= humanized_money_with_symbol(product.price)%><br>
+  <%= link_to "Show Product", product_path(product) %>
+  <% end %>
+</div>
+<% end %>
+<%= will_paginate @products%>
+<% end %>
