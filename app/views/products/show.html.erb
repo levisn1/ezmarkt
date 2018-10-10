@@ -1,25 +1,24 @@
-<div class="items-container">
-
-  <div class="menu-items">
-    <% if current_user != @product.user %>
-      <% if @product.ordinable == true %>
+<div class="menu-items">
+  <% if current_user != @product.user %>
+    <% if @product.ordinable == true %>
       <%= @product.name %><br>
       <%= @product.description %><br>
       <%= humanized_money_with_symbol(@product.price) %><br>
       <%= button_to "Add to cart", orders_path(:id => @product.id) %>
-      <% else %>
-      <%= @product.name %><br>
-      <%= @product.description %><br>
-      <%= humanized_money_with_symbol(@product.price) %><br>
-      <p>Prodotto attualmente non ordinabile o esaurito</p>
-      <% end %>
     <% else %>
+      <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
       <%= @product.name %><br>
       <%= @product.description %><br>
       <%= humanized_money_with_symbol(@product.price) %><br>
-      <%= link_to "Back", products_path %>
-      <%= link_to "Edit Product", edit_product_path(@product) %>
-      <%= link_to "Remove Product", product_path(@product), :method => :delete %>
+      <p>Product not available</p>
     <% end %>
-  </div>
+  <% else %>
+    <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
+    <%= @product.name %><br>
+    <%= @product.description %><br>
+    <%= humanized_money_with_symbol(@product.price) %><br>
+    <%= link_to "Back", products_path %>
+    <%= link_to "Edit Product", edit_product_path(@product) %>
+    <%= link_to "Remove Product", product_path(@product), :method => :delete %>
+  <% end %>
 </div>
