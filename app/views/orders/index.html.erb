@@ -1,9 +1,9 @@
 <% if current_user.orders.present? %>
-    <% if current_user.orders.where(paid: false).present? %>
+    <% if !@order.paid %>
         <p> Orders to pay </p>
-        <% current_user.orders.where(paid: false).each do |x| %>
-        <div>
-        <% x.products.each do |product| %>
+
+
+        <% @order.products.each do |product| %>
         <div>
         <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
         Product: <%= product.name %><br />
@@ -12,17 +12,17 @@
         Venduto da: <%= product.user.email %><br />
         </div>
         <% end %>
-        <p>TOTAL: <%= humanized_money_with_symbol(x.amount) %></p><br />
+        <p>TOTAL: <%= humanized_money_with_symbol(@order.amount) %></p><br />
         <%= form_tag(controller: "orders", action: 'payorder') do %>
         <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
-        data-label="Pay <%=humanized_money_with_symbol(x.amount) %>"
+        data-label="Pay <%=humanized_money_with_symbol(@order.amount) %>"
         data-name="My Teddy"
         data-email="<%= current_user.email %>"
-        data-amount="<%= x.amount_cents %>"
-        data-currency="<%= x.amount.currency %>"></script>
-        <% end %>
-        </div>
+        data-amount="<%= @order.amount_cents %>"
+        data-currency="<%= @order.amount.currency %>"></script>
+
+
       <% end %>
     <% end %>
   <br>

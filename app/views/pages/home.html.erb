@@ -3,3 +3,11 @@
   <%= submit_tag 'Search!' %>
 <% end %>
 <br>
+<h2>Latest product on sell!</h2>
+<% @productsample.each do |x| %>
+<div>
+  <%= x.picture? ? (link_to image_tag(x.picture_url, :alt => x.name), product_path(x)) : image_tag("https://via.placeholder.com/250x250") %>
+
+</div>
+<br>
+<% end %>

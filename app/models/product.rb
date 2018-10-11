@@ -5,7 +5,7 @@ class Product < ApplicationRecord
 
   monetize :price_cents
   mount_uploader :picture, PictureUploader
-
+  validates :name, :description, :category, :price, presence: true
   include PgSearch
   pg_search_scope :search_by_name_and_description,
   against: [ :name, :description ],

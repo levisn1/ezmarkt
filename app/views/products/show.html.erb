@@ -1,6 +1,7 @@
 <div class="menu-items">
   <% if current_user != @product.user %>
-    <% if @product.ordinable == true %>
+    <% if @product.ordinable %>
+      <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
       <%= @product.name %><br>
       <%= @product.description %><br>
       <%= humanized_money_with_symbol(@product.price) %><br>
