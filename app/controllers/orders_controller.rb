@@ -1,7 +1,7 @@
 class OrdersController < ApplicationController
-  before_action :set_product, only: [:create]
-  before_action :set_order_payment, only: [:payorder, :index]
-
+  before_action :set_product, only: [:create, :update]
+  before_action :set_order_payment, only: [:payorder, :index, :destroy, :update, :product_ordinable]
+  before_action :product_ordinable, only: [:destroy]
     def payorder
     customer = Stripe::Customer.create(
       source: params[:stripeToken],
@@ -86,6 +86,21 @@ class OrdersController < ApplicationController
   end
 
   def update
+    @order.products.delete(Product.find(@product.id))
+    @product.ordinable = true
+    @product.save
+    @order.amount = 0
+    @order.save
+    @order_amountnew = @order.amount
+    @order.products.each do |x|
+    @order_amountnew = @order_amountnew + x.price
+      end
+    @order.amount = @order_amountnew
+    @order.save
+    if @order.products.empty?
+      @order.destroy
+    end
+    redirect_to orders_url
   end
 
   def destroy
@@ -94,6 +109,7 @@ class OrdersController < ApplicationController
       format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
     end
   end
+
 
   private
 
@@ -104,4 +120,11 @@ class OrdersController < ApplicationController
     def set_order_payment
       @order = current_user.orders.last
     end
+
+    def product_ordinable
+    @order.products.each do |x|
+      x.ordinable = true
+      x.save
+    end
+  end
 end

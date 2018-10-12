@@ -2,10 +2,10 @@ Rails.application.routes.draw do
   root to: 'pages#home'
   devise_for :users
   resources :products
-  resources :orders, only: [:show, :create, :index] #do
+  resources :orders, only: [:show, :create, :index, :destroy, :update]
   post '/payment', action: :payorder, controller: 'orders'
-  #end
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  patch '/orders', action: :update, controller: 'orders'
+
   require "sidekiq/web"
   authenticate :user, lambda { |u| u.admin } do
     mount Sidekiq::Web => '/sidekiq'

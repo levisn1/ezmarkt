@@ -1,8 +1,6 @@
 <% if current_user.orders.present? %>
     <% if !@order.paid %>
         <p> Orders to pay </p>
-
-
         <% @order.products.each do |product| %>
         <div>
         <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
@@ -10,6 +8,8 @@
         Description: <%= product.description %><br />
         Price: <%= humanized_money_with_symbol(product.price) %><br />
         Venduto da: <%= product.user.email %><br />
+        <%= button_to("Remove", {:controller => "orders", :action => "update", :id => product.id}, :method => :patch) %>
+        <%#= button_to("Remove", orders_path, params: {:id => product.id}, :method => :patch) %> <!-- this works too -->
         </div>
         <% end %>
         <p>TOTAL: <%= humanized_money_with_symbol(@order.amount) %></p><br />
@@ -21,8 +21,7 @@
         data-email="<%= current_user.email %>"
         data-amount="<%= @order.amount_cents %>"
         data-currency="<%= @order.amount.currency %>"></script>
-
-
+        <%= link_to "Remove Order", order_path(@order), :method => :delete %>
       <% end %>
     <% end %>
   <br>

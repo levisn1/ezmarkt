@@ -16,7 +16,7 @@
 <h1>No products found!</h1>
 <% end %>
 <% else %>
-<% @products.reverse.each do |product| %>
+<% @products.each do |product| %>
 <% if product.ordinable == true  %>
 <div>
   <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
