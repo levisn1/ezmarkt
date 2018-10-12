@@ -1,3 +1,4 @@
+<% provide(:title, "Cart") %>
 <% if current_user.orders.present? %>
     <% if !@order.paid %>
         <p> Orders to pay </p>

@@ -101,6 +101,7 @@ class OrdersController < ApplicationController
       @order.destroy
     end
     redirect_to orders_url
+    #redirect_back(fallback_location: root_path)
   end
 
   def destroy
