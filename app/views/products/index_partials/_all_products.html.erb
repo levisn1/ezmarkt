@@ -1,0 +1,14 @@
+<% @products.each do |product| %>
+  <% if product.ordinable == true  %>
+    <div>
+      <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
+      <%= product.name %><br>
+      <%= product.description %><br>
+      <%= humanized_money_with_symbol(product.price)%><br>
+      <%= link_to "Show Product", product_path(product) %>
+    </div>
+  <% else %>
+    <h1>No products found!</h1>
+  <% end %>
+  <% end %>
+<%= will_paginate @products%>

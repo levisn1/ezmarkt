@@ -3,8 +3,6 @@ class ProductsController < ApplicationController
   skip_before_action :authenticate_user!, only: [:index, :show]
 
   def index
-    @products_search = Product.where(:ordinable => true).order('created_at DESC').search_by_name_and_description(params[:term]).paginate page: params[:page], per_page: 7
-    @products = Product.where(:ordinable => true).order('created_at DESC').paginate page: params[:page], per_page: 7
   end
 
 
