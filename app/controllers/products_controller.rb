@@ -23,14 +23,17 @@ class ProductsController < ApplicationController
         format.html { redirect_to products_path, notice: 'The product was successfully created.' }
       end
     else
-      redirect_to new_product_path
+      render :new
     end
   end
 
   def update
-    @product.update(product_params)
-    respond_to do |format|
-      format.html { redirect_to product_path, notice: 'The product was successfully updated.' }
+    if @product.update(product_params)
+      respond_to do |format|
+        format.html { redirect_to product_path, notice: 'The product was successfully updated.' }
+      end
+    else
+      render :new
     end
   end
 

@@ -1,5 +1,14 @@
 <%= simple_form_for @product do |f| %>
-  <%= f.input :name, label: 'Product name', error: 'Insert a name please' %>
+  <% if @product.errors.any? %>
+    <div class="errors-container">
+      <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.input :name, label: 'Product name' %>
   <%= f.input :description, label: 'Description' %>
   <%= f.association :category, label: 'Category' %>
   <%= f.input :price, label: 'Price' %>
