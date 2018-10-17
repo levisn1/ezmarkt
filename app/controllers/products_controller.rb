@@ -17,11 +17,8 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = current_user.products.new(product_params)
-    if @product.save
-      respond_to do |format|
-        format.html { redirect_to products_path, notice: 'The product was successfully created.' }
-      end
+    if @product = current_user.products.create!(product_params)
+      redirect_to products_path, notice: 'The product was successfully created.'
     else
       render :new
     end
@@ -29,9 +26,7 @@ class ProductsController < ApplicationController
 
   def update
     if @product.update(product_params)
-      respond_to do |format|
-        format.html { redirect_to product_path, notice: 'The product was successfully updated.' }
-      end
+      redirect_to product_path, notice: 'The product was successfully updated.'
     else
       render :new
     end
@@ -39,9 +34,7 @@ class ProductsController < ApplicationController
 
   def destroy
     @product.destroy
-    respond_to do |format|
-      format.html { redirect_to products_path, notice: 'The product was successfully destroyed.' }
-    end
+    redirect_to products_path, notice: 'The product was successfully destroyed.'
   end
 
   private

@@ -1,28 +1,29 @@
 class OrdersController < ApplicationController
   before_action :set_product, only: [:create, :update]
-  before_action :set_order_payment, only: [:payorder, :index, :destroy, :update, :product_ordinable]
+  before_action :set_order, only: [:payorder, :index, :destroy, :update, :product_ordinable]
   before_action :product_ordinable, only: [:destroy]
-    def payorder
+
+  def payorder
     customer = Stripe::Customer.create(
       source: params[:stripeToken],
       email:  params[:stripeEmail]
       )
 
     charge = Stripe::Charge.create(
-    customer:     customer.id,
-    amount:       @order.amount_cents,
-    description:  "Payment for your products for order #{@order.id}",
-    currency:     @order.amount.currency
-    )
+      customer:     customer.id,
+      amount:       @order.amount_cents,
+      description:  "Payment for your products for order #{@order.id}",
+      currency:     @order.amount.currency
+      )
 
     @order.update(payment: charge.to_json, paid: true)
     respond_to do |format|
-        format.html { redirect_to orders_path, notice: 'Payment Completed!' }
+      format.html { redirect_to orders_path, notice: 'Payment Completed!' }
     end
 
   rescue Stripe::CardError => e
     flash[:alert] = e.message
-    redirect_to orders_path
+    render :index
   end
 
   def index
@@ -37,92 +38,53 @@ class OrdersController < ApplicationController
   def edit
   end
 
+  delegate *%w(
+  unpaid_orders?
+  orders
+  ), to: :current_user
+
   def create
-    if current_user.orders.where(paid: false).present?
-      order = current_user.orders.last
-      order_id = order.id
-      product_id = @product.id
-      @product.ordinable = false
-      @product.save
-      order_amount = order.amount
-      if order.products << @product
-        order.products.each do |x|
-        @order_amountnew = order_amount + x.price
-        end
-        order.amount = @order_amountnew
-        order.save
-        respond_to do |format|
-          format.html { redirect_to products_path, notice: 'Product added to the cart!' }
-        end
-      else
-        respond_to do |format|
-          format.html { redirect_to products_path, notice: 'There was a problem while adding the product to the cart!' }
-        end
-    end
+    order = unpaid_orders? ? orders.last : orders.create!
+    @product.update(ordinable: false)
+    if order.products << @product
+      order.update(amount: order.products.sum(&:price))
+      @notice = 'Product added to the Cart!'
+      OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order.id) unless unpaid_orders?
     else
-      product_id = @product.id
-      order = current_user.orders.new
-      order.save
-      order_id = order.id
-      @product.ordinable = false
-      @product.save
-      order_amount = order.amount
-      if order.products << @product
-        order.products.each do |x|
-        @order_amountnew = order_amount + x.price
-        end
-        order.amount = @order_amountnew
-        order.save
-        respond_to do |format|
-          format.html { redirect_to products_path, notice: 'Product added to the cart!' }
-        end
-      OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order_id)
-      else
-        respond_to do |format|
-          format.html { redirect_to products_path, notice: 'There was a problem with your order!' }
-        end
-      end
+      @notice = 'There was a problem while adding the product to the cart!'
     end
+    redirect_to products_path, notice: @notice
   end
 
   def update
     @order.products.delete(Product.find(@product.id))
-    @product.ordinable = true
-    @product.save
-    @order.amount = 0
-    @order.save
-    @order_amountnew = @order.amount
-    @order.products.each do |x|
-    @order_amountnew = @order_amountnew + x.price
-      end
-    @order.amount = @order_amountnew
-    @order.save
+    @product.update(ordinable: true)
     if @order.products.empty?
       @order.destroy
+      @notice = 'Order deleted!'
+    else
+      @order.update(amount: @order.products.sum(&:price))
+      @notice = 'Order Updated!'
     end
-    redirect_to orders_url
-    #redirect_back(fallback_location: root_path)
+    redirect_to orders_path, notice: @notice
   end
 
   def destroy
     @order.destroy
-    respond_to do |format|
-      format.html { redirect_to orders_url, notice: 'Order was successfully destroyed.' }
-    end
+    redirect_to orders_url, notice: 'The order was successfully destroyed.'
   end
-
 
   private
 
-    def set_product
-       @product = Product.find(params[:id])
-    end
+  def set_product
+   @product = Product.find(params[:id])
+  end
 
-    def set_order_payment
-      @order = current_user.orders.last
-    end
+ def set_order
+  @order = current_user.orders.last
+  end
 
-    def product_ordinable
+  def product_ordinable
     @order.products.each do |x|
       x.ordinable = true
       x.save
