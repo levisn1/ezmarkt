@@ -299,7 +299,7 @@ DEPENDENCIES
   devise
   faker!
   figaro
-  font-awesome-sass (~> 4.7)
+  font-awesome-sass
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)

@@ -1,13 +1,29 @@
 <% provide(:title, "Home") %>
-<%= form_tag products_path, method: :get do %>
-  <%= text_field_tag 'term', params[:term], placeholder: "What are you looking for?", :required => true %>
-  <%= submit_tag 'Search!' %>
-<% end %>
-<br>
-<h2>Latest product on sell!</h2>
-<% @productsample.each do |x| %>
-<div>
-  <%= x.picture? ? (link_to image_tag(x.picture_url, :alt => x.name), product_path(x)) : image_tag("https://via.placeholder.com/250x250") %>
+<div class="main-wrapper home-background img-responsive">
+  <div class="banner">
+     <section class="home-first-section">
+      <div class="home-maintitle-box">
+        <h1>EzMarkt</h1>
+        <div class="home-mainparagraph-box">
+          <p>Buy, sell, fast and for free from, all over the world</p>
+        </div>
+      </div>
+    </section>
+          <section class="home-second-section">
+       <form action="products" class="form-inline">
+         <input  name="term" type="text" class="form-control input-lg form-input" placeholder="What are you looking for?">
+         <input type="submit" class="btn btn-primary btn-lg" value="Search">
+       </form>
+     </section>
+  </div>
+    <section class="container" id="home-latest-products-box">
+      <div class="row">
+        <% @productsample.each do |x| %>
+        <div class="col-sm-6 col-md-4 col-lg-3 home-random-product">
+          <div class="card"><%= x.picture? ? (link_to image_tag(x.picture_url, :alt => x.name, class: "img-responsive card-img"), product_path(x)) : image_tag("https://via.placeholder.com/250x250", class: "img-responsive card-img") %>
+          </div>
+        </div>
+        <% end %>
+      </div>
+    </section>
 </div>
-<br>
-<% end %>

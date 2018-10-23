@@ -1,4 +1,3 @@
-
 nav {
   .navbar-header {
     width: 100%;
@@ -17,7 +16,7 @@ nav {
   }
 }
 .navbar-default, .navbar-toggle:focus, .collapsed, button.navbar-toggle {
-  background: $navbarColor !important;
+  background: #52708B !important;
   border: none;
   a {
     color: white !important;
@@ -55,12 +54,12 @@ body {
 }
 
 .active a {
-  background: $navbarColor !important;
+  background: #52708B !important;
   border-bottom: solid 5px white;
 }
 
 .dropdown-toggle, .dropdown-menu {
-  background: $navbarColor !important;
+  background: #52708B !important;
   border: none;
 }
 
