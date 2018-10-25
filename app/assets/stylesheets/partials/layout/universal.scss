@@ -1,5 +1,10 @@
+html {
+  min-height: 100%;
+  position: relative;
+}
+
 .main-wrapper {
-  height: auto;
+  height: 100%;
 }
 
 .alert {

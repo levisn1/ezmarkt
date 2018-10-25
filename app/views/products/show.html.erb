@@ -1,26 +1,69 @@
 <% provide(:title, "Product") %>
-<div class="menu-items">
+<div class="main-wrapper home-background">
+  <div class="container containershowpage">
   <% if current_user != @product.user %>
     <% if @product.ordinable %>
-      <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
-      <%= @product.name %><br>
-      <%= @product.description %><br>
-      <%= humanized_money_with_symbol(@product.price) %><br>
-      <%= button_to "Add to cart", orders_path(:id => @product.id) %>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div>
+            <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name, class: "productboximg")  : image_tag("https://via.placeholder.com/250x250") %>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div class="showproductdesc">
+            <h1><%= @product.name %></h1>
+            <h4><%= @product.description %></h4>
+            <p>Price: <%= humanized_money_with_symbol(@product.price) %></p>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div class="designproduct">
+            <%= button_to "Add to cart", orders_path(:id => @product.id), class: "btn-primary btn-lg" %>
+          </div>
+        </div>
+      </div>
     <% else %>
-      <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
-      <%= @product.name %><br>
-      <%= @product.description %><br>
-      <%= humanized_money_with_symbol(@product.price) %><br>
-      <p>Product not available</p>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div>
+            <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name, class: "productboximg")  : image_tag("https://via.placeholder.com/250x250") %>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div class="showproductdesc">
+            <h1>Product not available at the moment.</h1>
+          </div>
+        </div>
+      </div>
     <% end %>
   <% else %>
-    <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name) : image_tag("https://via.placeholder.com/250x250") %>
-    <%= @product.name %><br>
-    <%= @product.description %><br>
-    <%= humanized_money_with_symbol(@product.price) %><br>
-    <%= link_to "Back", products_path %>
-    <%= link_to "Edit Product", edit_product_path(@product) %>
-    <%= link_to "Remove Product", product_path(@product), :method => :delete %>
+      <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div>
+            <%= @product.picture? ? image_tag(@product.picture_url, :alt => @product.name, class: "productboximg")  : image_tag("https://via.placeholder.com/250x250") %>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div class="showproductdesc">
+            <h1><%= @product.name %></h1>
+            <h4><%= @product.description %></h4>
+            <p>Price: <%= humanized_money_with_symbol(@product.price) %></p>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 designproduct">
+          <div class= "row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <%= link_to "Home", root_path, class: "btn btn-primary btn-lg" %>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <%= link_to "Edit Product", edit_product_path(@product), class: "btn btn-success btn-lg" %>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-4">
+              <%= link_to "Remove Product", product_path(@product), class: "btn btn-danger btn-lg", :method => :delete %>
+            </div>
+          </div>
+        </div>
+      </div>
   <% end %>
+  </div>
 </div>

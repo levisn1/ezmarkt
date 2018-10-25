@@ -1,0 +1,27 @@
+.cazzo-1 {
+  display: inline-block;
+  border: 1px solid red;
+  width: 45%;
+  height: 100%;
+}
+
+.cazzo-2 {
+  display: inline-block;
+  border: 1px solid red;
+  width: 45%;
+  height: 100px;
+}
+
+.lul {
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.containerorderpage {
+  padding-bottom: 315px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding-top: 100px;
+  max-width: 850px;
+}

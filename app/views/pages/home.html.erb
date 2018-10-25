@@ -5,7 +5,7 @@
       <div class="home-maintitle-box">
         <h1>EzMarkt</h1>
         <div class="home-mainparagraph-box">
-          <p>Buy, sell, fast and for free from, all over the world</p>
+          <p>Buy, sell, fast and for free, from all over the world</p>
         </div>
       </div>
     </section>
@@ -20,7 +20,7 @@
       <div class="row">
         <% @productsample.each do |x| %>
         <div class="col-sm-6 col-md-4 col-lg-3 home-random-product">
-          <div class="card"><%= x.picture? ? (link_to image_tag(x.picture_url, :alt => x.name, class: "img-responsive card-img"), product_path(x)) : image_tag("https://via.placeholder.com/250x250", class: "img-responsive card-img") %>
+          <div class="card"><%= x.picture? ? (link_to image_tag(x.picture_url, :alt => x.name, class: "img-responsive"), product_path(x)) : image_tag("https://via.placeholder.com/250x250", class: "img-responsive card-img") %>
           </div>
         </div>
         <% end %>
