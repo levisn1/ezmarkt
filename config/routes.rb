@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection do
       post '/payment', action: :payorder, controller: 'orders'
       patch '/update', action: :update, controller: 'orders'
+      get '/previousorders', action: :previous_orders, controller: 'orders'
     end
   end
   require "sidekiq/web"

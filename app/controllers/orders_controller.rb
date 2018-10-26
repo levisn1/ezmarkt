@@ -90,4 +90,7 @@ class OrdersController < ApplicationController
       x.save
     end
   end
+
+  def previous_orders
+  end
 end
