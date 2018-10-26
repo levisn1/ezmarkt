@@ -80,7 +80,7 @@ class OrdersController < ApplicationController
    @product = Product.find(params[:id])
   end
 
- def set_order
+  def set_order
   @order = current_user.orders.last
   end
 
