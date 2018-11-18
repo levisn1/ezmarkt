@@ -1,16 +1,13 @@
 .cazzo-1 {
   display: inline-block;
-  border: 1px solid red;
   width: 45%;
   height: 100%;
 }
 
 .cazzo-2 {
   display: inline-block;
-  border: 1px solid red;
   width: 45%;
   height: 100px;
-  // height: 100vh;
   position: sticky !important; /* !important to override Gmaps inline CSS */
   top: 0 !important;
 }
@@ -18,7 +15,6 @@
 .lul {
   display: flex;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.3);
 }
 
 .containerorderpage {
@@ -26,5 +22,21 @@
   border-radius: 5px;
   background-color: rgba(0, 0, 0, 0.3);
   padding-top: 100px;
-  max-width: 850px;
+  color: white;
+  font-family: "Lato", "sans-serif";
+  height: 100vh;
+}
+
+.containeroldorderspage {
+  padding-bottom: 315px;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  padding-top: 100px;
+  color: white;
+  font-family: "Lato", "sans-serif";
+  height: 100%;
+}
+
+.previousordersotherdetailscolumn {
+  padding-left: 2px !important;
 }

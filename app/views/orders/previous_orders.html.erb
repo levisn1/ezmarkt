@@ -1,19 +1,70 @@
+<% provide(:title, "Previous Orders") %>
+<div class="main-wrapper home-background">
+  <div class="containeroldorderspage">
 <% if current_user.orders.where(paid: true).present? %>
-  <p> Previous Orders:</p>
-  <% current_user.orders.where(paid: true).reverse.each do |x| %>
-  <div>
-    <% x.products.each do |product| %>
-      <div>
-       <%= product.picture? ? image_tag(product.picture_url, :alt => product.name) : image_tag("https://via.placeholder.com/250x250") %>
-       Product: <%= product.name %><br />
-       Description: <%= product.description %><br />
-       Price: <%= humanized_money_with_symbol(product.price) %><br />
-       Venduto da: <%= product.user.email %><br />
-     </div>
-  <% end %>
+    <div class="row">
+      <div class="col-lg-12">
+        <div><h3>My Previous Orders</h3></div>
+        <hr>
+      </div>
+    </div>
+    <% current_user.orders.where(paid: true).reverse.each do |x| %>
+            <div class="row">
+              <div class="col-lg-5">
+                <div>
+                  15-March-2017 20:33
+                </div>
+              </div>
+              <div class="col-lg-3">
+                <div>
+                  Total <%= x.amount %>
+                </div>
+              </div>
+              <div class="col-lg-4 previousordersotherdetailscolumn">
+                <div>
+                  otherdetails
+                </div>
+              </div>
+            </div>
+        <% x.products.each do |product| %>
+            <div class="row">
+              <div class="col-lg-5">
+                <div>
+                  <%= product.picture? ? image_tag(product.picture_url, :alt => product.name, class: "img-responsive") : image_tag("https://via.placeholder.com/250x250") %>
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div>
+                      <%= product.name %>
+                    </div>
+                  </div>
+                  <div class="col-lg-7">
+                    <div>
+                      <%= product.description %>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5">
+                      <div>
+                        <%= humanized_money_with_symbol(product.price) %>
+                      </div>
+                    </div>
+                    <div class="col-lg-7">
+                      <div>
+                        Sold by <%= product.user.email %>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+            <% end %>
+            <hr>
+        <% end %>
+    <% else %>
+    <p>No previous orders</p>
+    <% end %>
   </div>
-  <p>TOTAL PAID: <%= humanized_money_with_symbol(x.amount) %></p>
-  <% end %>
-<% else %>
-<p>No previous orders</p>
-<% end %>
+</div>

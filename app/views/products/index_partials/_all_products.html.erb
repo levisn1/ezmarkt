@@ -2,16 +2,22 @@
   <% @products.each do |product| %>
     <% if product.ordinable == true %>
       <div class="col-sm-4 designproduct">
-        <div class="panel panel-primary">
+        <div class="panel panel-primary panel-primary-background">
           <div class="panel-heading"><%= product.name %></div>
             <div class="panel-body"><%= product.picture? ? image_tag(product.picture_url, :alt => product.name, class: "productboximgindex img-responsive") : image_tag("https://via.placeholder.com/250x250", class: "productboximgindex img-responsive") %></div>
           <div class="panel-footer panel-footer-color"><%=product.description%>, <%=humanized_money_with_symbol(product.price)%></div>
             <div class="btn btn-primary btn-lg designproduct">
               <%= link_to "Show Product", product_path(product) %>
             </div>
-              <div class="btn btn-success btn-lg designproduct">
+            <% if product.user == current_user %>
+               <div class="btn btn-danger btn-lg designproduct">
+               <%= link_to "You own the product", product_path(product) %>
+              </div>
+              <% else %>
+               <div class="btn btn-success btn-lg designproduct">
               <%= link_to "Add to cart", orders_path(:id => product.id) %>
-            </div>
+              </div>
+            <% end %>
         </div>
       </div>
     <% else %>

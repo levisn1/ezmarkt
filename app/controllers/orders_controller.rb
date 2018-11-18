@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :set_product, only: [:create, :update]
-  before_action :set_order, only: [:payorder, :index, :destroy, :update, :product_ordinable]
+  before_action :set_order, only: [:payorder, :index, :destroy, :update, :product_ordinable, :show]
   before_action :product_ordinable, only: [:destroy]
 
   def payorder
@@ -44,12 +44,16 @@ class OrdersController < ApplicationController
   ), to: :current_user
 
   def create
-    order = unpaid_orders? ? orders.last : orders.create!
-    @product.update(ordinable: false)
-    if order.products << @product
-      order.update(amount: order.products.sum(&:price))
-      @notice = 'Product added to the Cart!'
-      OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order.id) unless unpaid_orders?
+    if @product.ordinable?
+      order = unpaid_orders? ? orders.last : orders.create!
+      @product.update(ordinable: false)
+      if order.products << @product
+        order.update(amount: order.products.sum(&:price))
+        @notice = 'Product added to the Cart!'
+        OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order.id) unless unpaid_orders?
+      else
+        @notice = 'There was a problem while adding the product to the cart!'
+      end
     else
       @notice = 'There was a problem while adding the product to the cart!'
     end

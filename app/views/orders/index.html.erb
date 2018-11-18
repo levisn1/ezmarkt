@@ -1,10 +1,8 @@
 <% provide(:title, "Cart") %>
 <div class="main-wrapper home-background">
-<!-- <div class="container containerorderpage"> -->
-
-
+<div class="containerorderpage">
 <div class="lul">
-<% if current_user.orders.present? %>
+  <% if current_user.orders.present? %>
       <% if !@order.paid %>
             <div class="cazzo-1">
                   <% @order.products.each do |product| %>
@@ -37,7 +35,7 @@
                             </div>
                             <div class="col-lg-2">
                               <div>
-                              <%= button_to("Remove", {:controller => "orders", :action => "update", :id => product.id}, :method => :patch) %>
+                              <%= button_to("X", {:controller => "orders", :action => "update", :id => product.id}, class: "btn-danger btn", :method => :patch) %>
                               </div>
                             </div>
                           </div>
@@ -48,7 +46,6 @@
             </div>
             <div class="cazzo-2">
               <div>
-                <p>TOTAL: <%= humanized_money_with_symbol(@order.amount) %></p>
                   <%= form_tag(controller: "orders", action: 'payorder') do %>
                   <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                   data-key="<%= ENV['STRIPE_PUBLISHABLE_KEY'] %>"
@@ -61,10 +58,13 @@
                 <% end %>
               </div>
             </div>
-      <% end %>
 
 <% else %>
-    <p>Non hai ordini in sospeso </p>
+    <p>No pending orders</p>
 <% end %>
+<% else %>
+    <p>No pending orders</p>
+<% end %>
+</div>
 </div>
 </div>
