@@ -39,6 +39,7 @@ gem 'bootstrap-will_paginate'
 gem 'select2-rails'
 gem 'underscore-rails'
 gem 'rack'
+gem 'loofah'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
