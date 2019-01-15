@@ -308,6 +308,7 @@ DEPENDENCIES
   pg
   pg_search
   puma (~> 3.11)
+  rack
   rails (~> 5.2.0)
   sass-rails
   select2-rails
@@ -326,7 +327,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 2.4.4p296
+   ruby 2.5.0p0
 
 BUNDLED WITH
-   1.16.3
+   2.0.1
