@@ -1,2 +1,2 @@
 web: bundle exec puma -C config/puma.rb
-OrderPaidCheckJob: bundle exec sidekiq -C config/sidekiq.yml
+OrderPaidCheckJob: bundle exec sidekiq -c 2
