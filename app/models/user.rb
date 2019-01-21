@@ -12,6 +12,8 @@ class User < ApplicationRecord
     orders.where(paid: false)
   end
 
+  #check this code above it should be wrong
+
   def unpaid_orders?
     unpaid_orders.any?
   end

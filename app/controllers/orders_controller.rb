@@ -50,7 +50,8 @@ class OrdersController < ApplicationController
       if order.products << @product
         order.update(amount: order.products.sum(&:price))
         @notice = 'Product added to the Cart!'
-        OrderPaidCheckJob.set(wait: 3.minutes).perform_later(order.id) unless unpaid_orders?
+        OrderPaidCheckJob.set(wait: 2.minutes).perform_later(order.id)
+        # unless unpaid_orders
       else
         @notice = 'There was a problem while adding the product to the cart!'
       end
@@ -81,11 +82,11 @@ class OrdersController < ApplicationController
   private
 
   def set_product
-   @product = Product.find(params[:id])
+    @product = Product.find(params[:id])
   end
 
   def set_order
-  @order = current_user.orders.last
+    @order = current_user.orders.last
   end
 
   def product_ordinable
